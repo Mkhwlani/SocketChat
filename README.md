@@ -1,2 +1,2 @@
 # SocketChat
-Simple chating system, Made by SocketPuppets
+Simple chatting system, Made by SocketPuppets
