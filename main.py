@@ -1,2 +1,1 @@
 print("SocketChat")
-print("Hi")
