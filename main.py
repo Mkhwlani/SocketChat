@@ -4,7 +4,7 @@ def title():
     print("    ||       CHAT       ||")
     print("====||________||________||====")
     print("    ||                  ||")
-    print("SocketChat -- Made by SocketPuppets\n")
+    print("\nSocketChat -- Made by SocketPuppets\n")
 
 def choice():
     print("1. Host Socket Room (chat room)")
