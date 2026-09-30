@@ -1,5 +1,3 @@
-#userResponse = int(input("Enter"))
-
 def title():
     print("    ||                  ||")
     print("====||--------||--------||====")
