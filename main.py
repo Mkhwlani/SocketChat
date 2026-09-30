@@ -11,5 +11,6 @@ def choice():
     print("2. Join a Socket Room (chat room)")
 
 title()
+choice()
 
 userResponse = int(input("Enter choice: "))
