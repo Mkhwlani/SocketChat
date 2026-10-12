@@ -12,3 +12,5 @@ def connect(HOST, PORT):
 
     print("Connected to server {HOST}:{PORT}")
 
+    print("hello world")
+
