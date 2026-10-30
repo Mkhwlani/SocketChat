@@ -1,6 +1,7 @@
 import socket, threading
 from _thread import start_new_thread
 client_list = {}
+
 def open_connection(client_socket:socket):
     while True:
         try:
@@ -45,6 +46,8 @@ def main():
         client, addr = server.accept()
         print(f"Connected with {addr}")
         
-        # ADD THESE TWO LINES:
         client_list[client] = f"User_{addr[1]}"
         start_new_thread(open_connection, (client,))
+
+if __name__ == "__main__":
+    main()
