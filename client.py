@@ -13,7 +13,7 @@ def receive_messages(client_socket):
             message = client_socket.recv(1024).decode('utf-8')
             if not message:
                 break
-            print(f"\n{message}")
+            print(f"{message}", end="")
         except:
             print("\n[Disconnected from the server]")
             break
@@ -22,7 +22,7 @@ def receive_messages(client_socket):
 
 def main():
     # 1. Connect to the server
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #ipv4, tcp
     try:
         client_socket.connect((HOST, PORT))
     except Exception as e:
@@ -52,21 +52,21 @@ def main():
             
             #Disconnect
             if msg.lower() == '/quit':
-                client_socket.send("QUIT".encode('utf-8'))
+                client_socket.send("QUIT\n".encode('utf-8'))
                 client_socket.close()
                 sys.exit()
             
             # who is currently online
             elif msg.lower() == '/who':
-                client_socket.send("STATUS".encode('utf-8'))
+                client_socket.send("WHO/n".encode('utf-8'))
             
             # sennd public message
             elif msg:
-                client_socket.send(msg.encode('utf-8'))
+                client_socket.send(f"SAY {msg}\n".encode('utf-8'))
                 
         except KeyboardInterrupt:
             # Handle Ctrl+C cleanly
-            client_socket.send("QUIT".encode('utf-8'))
+            client_socket.send("QUIT\n".encode('utf-8'))
             client_socket.close()
             sys.exit()
 
