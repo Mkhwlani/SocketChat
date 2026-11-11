@@ -1,8 +1,10 @@
 import socket, threading
 from _thread import start_new_thread
-client_list = {}
 
-def open_connection(client_socket:socket):
+client_list = {}
+clients_lock = threading.Lock()
+
+def open_connection(client_socket:socket, client_list:dict):
     while True:
         try:
             message = client_socket.recv(1024).decode("utf-8")
