@@ -21,18 +21,23 @@ def assign_username(client_socket:socket, client_list:dict, username:str):
     if client_socket not in client_list:
          client_list[client_socket] = username
 
-def broadcast_message(sender, message, client_list):
-    if sender in client_list:
-        formatted_message = f"{client_list[sender]}: {message}"
-        
-        for client in client_list:
-        
-            if client != sender: 
-                try:
-                    client.send(formatted_message.encode('utf-8'))
-                except:
-                    
-                    pass
+def broadcast(sender, message):
+    with clients_lock:
+        targets = list(client_list.items())
+
+    if sender not in dict(targets):
+        return
+
+    formatted_message = f"{dict(targets)[sender]}: {message}"
+
+    print(f"[server] broadcast to {len(targets) - 1} client(s): {formatted_message}")
+
+    for client, username in targets:
+        if client != sender:
+            try:
+                client.sendall(formatted_message.encode('utf-8'))
+            except OSError:
+                pass
 
 
 def main():
