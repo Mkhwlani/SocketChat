@@ -70,10 +70,14 @@ def handle(client_socket: socket.socket, addr):
     except (ConnectionResetError, BrokenPipeError):
         print(f"[{tag}] {addr} dropped the connection")
     finally:
-        if client_socket.name:
+        with clients_lock:
+            leftUser = client_list.get(client_socket)
+            
+        if leftUser:
+            broadcast(client_socket, f"INFO {leftUser} left")
             with clients_lock:
-                client_list.pop(client_list.name, None)
-            broadcast(f"INFO {client_list.name} left")
+                client_list.pop(client_socket, None)
+                
         print(f"[{tag}] finished {addr}")
 
 
