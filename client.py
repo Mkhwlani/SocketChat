@@ -32,7 +32,7 @@ def main():
     # 2. Choose a username
     username = input("Choose a username: ")
     # Send login command to the server
-    client_socket.send(f"LOGIN {username}".encode('utf-8'))
+    client_socket.send(f"LOGIN {username}\n".encode('utf-8'))
 
     # 3. Handle multiple connections (Receive thread)
     recv_thread = threading.Thread(target=receive_messages, args=(client_socket,))
@@ -58,7 +58,7 @@ def main():
             
             # who is currently online
             elif msg.lower() == '/who':
-                client_socket.send("WHO/n".encode('utf-8'))
+                client_socket.send("WHO\n".encode('utf-8'))
             
             # sennd public message
             elif msg:
