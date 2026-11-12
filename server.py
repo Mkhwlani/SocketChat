@@ -2,6 +2,8 @@ import socket, threading
 from _thread import start_new_thread
 import re
 
+PORT = 56437
+
 NAME_RULE = re.compile(r"^[a-zA-Z0-9_]{1,12}$")
 client_list = {}
 clients_lock = threading.Lock()
@@ -67,7 +69,12 @@ def handle(client_socket: socket.socket, addr):
 
     except (ConnectionResetError, BrokenPipeError):
         print(f"[{tag}] {addr} dropped the connection")
-
+    finally:
+        if client_socket.name:
+            with clients_lock:
+                client_list.pop(client_list.name, None)
+            broadcast(f"INFO {client_list.name} left")
+        print(f"[{tag}] finished {addr}")
 
 
 def broadcast(sender, message):
@@ -90,20 +97,12 @@ def broadcast(sender, message):
 
 
 def main():
-    IP_ADDRESS = "0.0.0.0"
-    PORT = 56437
-
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind((IP_ADDRESS, PORT))
-    server.listen()
-    print(f"The server is running on {IP_ADDRESS}:{PORT}")
-
-    while True:
-        client, addr = server.accept()
-        print(f"Connected with {addr}")
-        
-        client_list[client] = f"User_{addr[1]}"
-        start_new_thread(open_connection, (client,))
+    with socket.create_server(("", PORT)) as srv:
+        print(f"[chat_server] listening on port {PORT}  (Ctrl+C to stop)")
+      
+        while True:
+            conn, addr = srv.accept()
+            threading.Thread(target=handle, args=(conn, addr), daemon=True).start()
 
 if __name__ == "__main__":
     main()
