@@ -84,7 +84,7 @@ def broadcast(sender, message):
     if sender not in dict(targets):
         return
 
-    formatted_message = f"{dict(targets)[sender]}: {message}"
+    formatted_message = f"{dict(targets)[sender]}: {message}\n"
 
     print(f"[server] broadcast to {len(targets) - 1} client(s): {formatted_message}")
 
