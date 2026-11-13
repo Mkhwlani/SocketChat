@@ -1,3 +1,6 @@
+import server
+import client
+
 def title():
     print("    ||                  ||")
     print("====||--------||--------||====")
@@ -14,4 +17,11 @@ title()
 choice()
 
 userResponse = int(input("Enter choice: "))
-print("test")
+print()
+
+if userResponse == 1:
+    server.main()
+elif userResponse == 2:
+    client.main()
+else:
+    print("Invalid choice")
